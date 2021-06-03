@@ -1,0 +1,86 @@
+<%- include('partials/header'); -%>
+<div class="table-data">
+  <h2>Details of the Agents</h2>
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Names or PhoneNumber" title="Type in a name or phoneNumber">
+  <table id="myTable" border="1">
+    <tr class="header">
+      <th style="width:60%;" onclick="sortTable()">Username </th>
+      <th style="width:60%;">Domain</th>
+      <th style="width:40%;">City</th>
+      <th style="width:40%;">Phone number</th>
+      <th style="width:60%;">roles</th>
+    </tr>
+
+    <% if(parsedConst1.length!=0){
+        var i=1;
+        parsedConst1.forEach(function(data){
+        %>
+    <tr>
+      <td><%=data.username %></td>
+      <td><%=data.domain %></td>
+      <td><%=data.city %></td>
+      <td><%=data.phoneNumber %></td>
+      <td><%=data.roles %></td>
+    </tr>
+    <%  i++; }) %>
+    <% } else{ %>
+    <tr>
+      <td colspan="7">No Data Found</td>
+    </tr>
+    <% } %>
+  </table>
+</div>
+<script>
+
+    function myFunction() {
+
+    var input, filter, table, tr, td,td3, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      td3 = tr[i].getElementsByTagName("td")[3];
+      if (td || td3) {
+        txtValue = td.textContent || td.innerText;
+        txtValue3 = td3.textContent || td3.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1 || txtValue3.toUpperCase().indexOf(filter) > -1 ) {
+          tr[i].style.display = "";
+
+        } else {
+
+          tr[i].style.display = "none";
+        }
+      }
+
+    }
+  }
+
+  function sortTable() {
+    var table, rows, switching, i, x, y, shouldSwitch;
+    table = document.getElementById("myTable");
+    switching = true;
+    while (switching) {
+      switching = false;
+      rows = table.rows;
+      for (i = 1; i < (rows.length - 1); i++) {
+        shouldSwitch = false;
+        x = rows[i].getElementsByTagName("td")[0];
+        y = rows[i + 1].getElementsByTagName("td")[0];
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+      if (shouldSwitch) {
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+      }
+    }
+  }
+</script>
+
+
+
+<%- include('partials/footer'); -%>
